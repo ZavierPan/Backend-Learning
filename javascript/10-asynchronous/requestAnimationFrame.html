@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>My test page</title>
+        <link rel="stylesheet" href="requestAnimationFrame.css">
+    </head>
+    <body>
+        <div>↻</div>
+
+
+        <script>
+            const spinner = document.querySelector('div');
+            let rotateCount = 0;
+            let startTime = null;
+            let rAF;
+            let spinStatus = false;
+
+            function draw(timestamp) {
+                if (!startTime) {
+                    startTime = timestamp;
+                }
+
+                rotateCount = (timestamp - startTime) / 3;
+                rotateCount %= 360; 
+
+                spinner.style.transform = `rotate(${rotateCount}deg)`;
+
+                rAF = requestAnimationFrame(draw);
+            }
+
+            const btn = document.querySelector('body');
+
+            function changeStatus() {
+                if (spinStatus) {
+                    cancelAnimationFrame(rAF)
+                    spinStatus = false
+                }
+                else {
+                    draw();
+                    spinStatus = true
+                }
+            }
+            
+            btn.addEventListener('click', changeStatus);
+            
+        </script>
+    </body>
+</html>
