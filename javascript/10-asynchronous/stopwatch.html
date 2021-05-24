@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>Simple setInterval clock</title>
+        <style>
+            p {
+                font-family: sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="clock">00:00:00</p>
+        <button class="start">Start</button>
+        <button class="stop">Stop</button>
+        <button class="reset">Reset</button>
+
+        <script>
+            let temp_time = 0
+            let total_time = 0
+
+            // Define a global to store the interval when it is active.
+            let stopWatch
+
+            let startTime
+
+            const startbtn = document.querySelector('.start')
+            const stopbtn = document.querySelector('.stop')
+            const resetbtn = document.querySelector('.reset')
+
+            const clock = document.querySelector('.clock')
+
+            function displayCount() {
+                total_time = temp_time + (Date.now() - startTime)
+                let total_seconds = parseInt(total_time / 1000)
+
+                let hours = Math.floor(total_seconds/3600);
+                let minutes = Math.floor((total_seconds % 3600)/60);
+                let seconds = Math.floor(total_seconds % 60)
+
+                if (hours   < 10) {hours   = "0" + hours}
+                if (minutes < 10) {minutes = "0" + minutes}
+                if (seconds < 10) {seconds = "0" + seconds}
+
+                clock.textContent = hours + ':' + minutes+':' + seconds;
+            }
+
+            function StartCount() {
+                startTime = Date.now()
+                stopWatch = setInterval(displayCount, 1000)
+                startbtn.disabled = true
+                stopbtn.disabled = false
+            }
+            
+            function StopCount() {
+                temp_time = total_time
+                clearInterval(stopWatch)
+                startbtn.disabled = false
+                stopbtn.disabled = true
+            }
+
+            function ResetCount() {
+                clearInterval(stopWatch)
+                temp_time = 0
+                total_time = 0
+                clock.textContent = "00:00:00"
+                startbtn.disabled = false
+                stopbtn.disabled = false
+            }
+
+            startbtn.addEventListener('click', StartCount)
+            stopbtn.addEventListener('click', StopCount)
+            resetbtn.addEventListener('click', ResetCount)
+
+        </script>
+    </body>
+</html>
