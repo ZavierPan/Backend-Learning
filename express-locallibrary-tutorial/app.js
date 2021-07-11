@@ -3,7 +3,8 @@ var express = require('express');
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://zavier:zxcS840831@cluster0.vdkoy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+// var mongoDB = 'mongodb+srv://zavier:zxcS840831@cluster0.vdkoy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+var mongoDB = process.env.MONGODB_URI || 'mongodb+srv://zavier:zxcS840831@cluster0.vdkoy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
